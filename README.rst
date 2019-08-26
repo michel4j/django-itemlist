@@ -11,7 +11,7 @@ Provides a generic class-based view `ItemListView`.
 ItemListView
 ------------
 
-*class itemlist.ItemListView*
+*class itemlist.views.ItemListView*
     A page representing a list of objects, with a search box, list filters, sortable columns, pagination and optional
     links to detailed pages.
 
