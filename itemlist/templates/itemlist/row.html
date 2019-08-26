@@ -1,0 +1,5 @@
+<tr>
+{% for field in fields %}
+    <td {% if field.style %}class="{{field.style}}"{% endif %}>{{ field.text }}</td>
+{% endfor %}
+</tr>

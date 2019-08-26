@@ -1,0 +1,27 @@
+{% if paginator.num_pages > 1 %}
+    <ul class="pagination pagination-sm">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="{{ query_string }}&page=1">First</a></li>
+            <li class="page-item">
+                <a class="page-link" href="{{ query_string }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#0!">First</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#0!">Previous</a></li>
+        {% endif %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#0!">Page {{ page_obj.number }} / {{ paginator.num_pages }}</a>
+        </li>
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ query_string }}&page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{{ query_string }}&page={{ paginator.num_pages }}">Last</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#0!">Next</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#0!">Last</a></li>
+        {% endif %}
+    </ul>
+{% endif %}

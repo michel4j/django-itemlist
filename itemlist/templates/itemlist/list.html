@@ -1,0 +1,31 @@
+{% load static %}
+{% load itemlist %}
+<table class="table table-sm item-list">
+    <thead>
+    <tr>
+        {% for header in view.get_headers %}
+            <th scope='col' class='{{ header.style }}'>{% if header.url %}<a href='{{ header.url }}'>{{ header.text }}</a>{% else %}
+            {{ header.text }}{% endif %}
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for obj in object_list %}
+        {% show_row obj %}
+    {% empty %}
+        <tr>
+            <td colspan="{{ num_columns }}" class="text-center py-5 border-bottom">No Items</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<style scoped>
+    .item-list th.sorted-dn::after {
+        content: "\02191";
+    }
+    .item-list th.sorted-up::after {
+        content: "\02193";
+    }
+</style>
+
+

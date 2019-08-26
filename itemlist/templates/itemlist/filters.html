@@ -1,0 +1,65 @@
+<div class="row my-2">
+    <div class="col-sm-4 d-flex align-items-center">
+        <input name="search" type="search" class="form-control form-control-sm" placeholder="Search"
+               onkeypress="updateParam(this, event);">
+    </div>
+    <div class="col-sm-8">
+        <ul class="filter-list nav nav-pills d-flex flex-row align-items-center" style="font-size: 0.95rem;">
+            {% for title, spec, selected in filters %}
+                <li class="dropdown pr-3">
+                    <a class="dropdown-toggle d-flex flex-row align-items-center nav-link py-1 px-1"
+                       data-toggle="dropdown" href="#0!" style="line-height: 0.85;">
+                        <div>
+                            <div class="filter-name">{{ title|capfirst }}</div>
+                            <small class="filter-selected">{{ selected|truncatechars:20 }}</small>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu" style="font-size: 0.85rem; max-height: 60vh; overflow-y: auto;">
+                        {% for choice in spec %}
+                            <li>
+                                <a class="dropdown-item filter px-3 {% if choice.selected %}active{% endif %}"
+                                   href="{{ choice.query_string }}">{{ choice.display|escape }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% if forloop.last %}
+                    <li class="nav-link ml-auto text-right flex-shrink">
+                        <span style="line-height: 0.8;">{{ paginator.count }} item{{ paginator.count|pluralize }}</span>
+                        {% if has_filters %}
+                            <span class="text-muted">&nbsp;|&nbsp;</span><a href="." data-toggle="tooltip" title="Show All" class="clear-filters">All</a>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Function to Perform search by updating search parameter to keep existing filters
+    function updateParam(element, event) {
+        if (event.which === 10 || event.which === 13) {
+            event.preventDefault();
+            const PAGE_VAR = 'page';
+            const SEARCH_VAR = 'search';
+
+            let value = encodeURI($(element).val());
+            let kvp = document.location.search.substr(1).split('&');
+            let params = {};
+            let new_params = [];
+            let i = kvp.length;
+            let x;
+            while (i--) {
+                x = kvp[i].split('=');
+                if (x[0] === SEARCH_VAR) x[1] = value;
+                if (x[0] === PAGE_VAR) x[1] = '1';
+            }
+            params[SEARCH_VAR] = value;
+            $.each(params, function (key, value) {
+                new_params.push(key + '=' + value);
+            });
+            document.location.search = new_params.join('&');
+        }
+    }
+</script>
