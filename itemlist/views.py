@@ -57,6 +57,8 @@ class ItemListView(ListView):
     link_data = False
     link_field = None
 
+    ordering = []
+
     template_name = "itemlist/item_list.html"
 
     def __init__(self):

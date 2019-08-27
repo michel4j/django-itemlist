@@ -6,7 +6,7 @@ with open(path.join(path.abspath(path.dirname(__file__)), 'README.rst'), 'r') as
 
 setup(
     name='django-itemlist',
-    version='0.1.1',
+    version='0.1.2',
     packages=['itemlist'],
     url='https://github.com/michel4j/django-itemlist',
     license='MIT License',
