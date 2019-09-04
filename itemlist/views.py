@@ -61,8 +61,8 @@ class ItemListView(ListView):
 
     template_name = "itemlist/item_list.html"
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.column_attrs = {}
         self.filter_specs = None
         self.has_filters = False
