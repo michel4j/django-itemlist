@@ -340,10 +340,9 @@ class ItemListView(ListView):
                 url = self.get_link_url(obj)
                 if url:
                     if self.link_data:
-                        html_spec = {'tag':'span', 'attr':'data-link', 'url': url, 'value': value}
+                        value = safestring.mark_safe('<a href="#!" data-link="{url}">{value}</a>'.format(url=url, value=value))
                     else:
-                        html_spec = {'tag':'a', 'attr':'href', 'url': url, 'value': value}
-                    value = safestring.mark_safe('<{tag} {attr}="{url}">{value}</{tag}>'.format(**html_spec))
+                        value = safestring.mark_safe('<a href="{href}">{value}</a>'.format(href=url, value=value))
 
             yield {'text': value, 'style': styles.get(field_name, '')}
 

@@ -118,6 +118,6 @@ def get_row_values(obj, view):
 
 def _boolean_icon(field_val):
     if field_val:
-        return mark_safe('<i class="fa fa-check-circle"></i>')
+        return mark_safe('&check;')
     else:
         return ''
