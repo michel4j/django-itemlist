@@ -5,7 +5,8 @@
     <tr>
         {% for header in view.get_headers %}
             <th scope='col' class='{{ header.style }}'>{% if header.url %}<a href='{{ header.url }}'>{{ header.text }}</a>{% else %}
-            {{ header.text }}{% endif %}
+                {{ header.text }}{% endif %}
+            </th>
         {% endfor %}
     </tr>
     </thead>

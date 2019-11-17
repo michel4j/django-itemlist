@@ -99,7 +99,7 @@ class ItemListView(ListView):
         context = super().get_context_data(**kwargs)
         context['query_string'] = self.get_query_string(remove=[PAGE_VAR, CSV_VAR])
         context['headers'] = self.get_headers()
-        context['num_columns'] = len(self.list_columns)
+        context['num_columns'] = len(self.get_list_columns())
         context['filters'] = [self.get_filter_data(spec) for spec in self.filter_specs]
         context['has_filters'] = self.has_filters
         return context
