@@ -54,7 +54,7 @@ class ItemListView(ListView):
 
     link_url = None
     link_kwarg = 'pk'
-    link_data = False
+    link_attr = None
     link_field = None
 
     ordering = []
@@ -339,8 +339,8 @@ class ItemListView(ListView):
             if field_name == link_field:
                 url = self.get_link_url(obj)
                 if url:
-                    if self.link_data:
-                        value = safestring.mark_safe('<a href="#!" data-link="{url}">{value}</a>'.format(url=url, value=value))
+                    if self.link_attr:
+                        value = safestring.mark_safe('<a href="#!" {attr}="{url}">{value}</a>'.format(url=url, value=value, attr=self.link_attr))
                     else:
                         value = safestring.mark_safe('<a href="{href}">{value}</a>'.format(href=url, value=value))
 

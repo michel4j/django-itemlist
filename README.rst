@@ -49,10 +49,12 @@ ItemListView
         link_kwarg
             The link kwarg parameter for `link_url`. Default is 'pk'
 
-        link_data
-            `True` or `False`. Determines how links are created for each row.  If `False` (default), anchor tags are
-            used.  If `True`, `span` tags are used with a `data-link` attribute having the value of the detail url for
-            the row.  This is useful for loading content using JavaScript into modals or for ajax.
+        link_attr
+            By default links are created with the url in the href attribute of an anchor tag. The attribute can be
+            changed by setting the link_attr parameter of the view. For example setting `link_attr` to `data-link` will
+            create a tag that looks like `<a href="#!" data-link="http://...">...</a>`.  This is useful for loading
+            content using JavaScript into modals or for ajax. This parameter replaces `link_data` boolean in previous
+            versions.
 
         link_field
             Column name on which to create links. Must be one of the names included in list_columns. By default the
