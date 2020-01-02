@@ -95,6 +95,9 @@ class ItemListView(ListView):
         else:
             return None
 
+    def get_link_attr(self, obj):
+        return self.link_attr
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['query_string'] = self.get_query_string(remove=[PAGE_VAR, CSV_VAR])
@@ -338,9 +341,10 @@ class ItemListView(ListView):
             # replace text with link for link field of column
             if field_name == link_field:
                 url = self.get_link_url(obj)
+                attr = self.get_link_attr(obj)
                 if url:
-                    if self.link_attr:
-                        value = safestring.mark_safe('<a href="#!" {attr}="{url}">{value}</a>'.format(url=url, value=value, attr=self.link_attr))
+                    if attr:
+                        value = safestring.mark_safe('<a href="#!" {attr}="{url}">{value}</a>'.format(url=url, value=value, attr=attr))
                     else:
                         value = safestring.mark_safe('<a href="{href}">{value}</a>'.format(href=url, value=value))
 
