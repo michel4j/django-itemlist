@@ -87,6 +87,9 @@ ItemListView
         get_link_field()
             Return the name of the column on which to create the detail links. By default, returns the first column.
 
+        get_link_attr()
+            Return the `attr` to use for the detail `link_url`. By default, simply returns the value of `link_attr`.
+
 
 Example views.py:
 
