@@ -343,7 +343,7 @@ class ItemListView(ListView):
                 url = self.get_link_url(obj)
                 attr = self.get_link_attr(obj)
                 if url:
-                    if attr:
+                    if attr and attr != "href":
                         value = safestring.mark_safe('<a href="#!" {attr}="{url}">{value}</a>'.format(url=url, value=value, attr=attr))
                     else:
                         value = safestring.mark_safe('<a href="{href}">{value}</a>'.format(href=url, value=value))

@@ -10,7 +10,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-itemlist',
-    version='0.2.6',
+    version='0.2.7',
     packages=find_packages(),
     url='https://github.com/michel4j/django-itemlist',
     include_package_data=True,
