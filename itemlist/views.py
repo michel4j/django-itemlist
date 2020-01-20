@@ -48,6 +48,7 @@ def get_column_title(model, name):
 class ItemListView(ListView):
     list_filters = []
     list_columns = []
+    list_headers = {}
     list_transforms = {}
     list_styles = {}
     list_search = []
@@ -69,6 +70,9 @@ class ItemListView(ListView):
 
     def get_list_columns(self):
         return self.list_columns
+
+    def get_list_headers(self):
+        return self.list_headers
 
     def get_list_transforms(self):
         return self.list_transforms
@@ -274,17 +278,19 @@ class ItemListView(ListView):
             for c in ordering_text.split('.') if c
         ])
 
+        list_headers = self.get_list_headers()
+
         for i, field_name in enumerate(self.get_list_columns()):
             # generate new url for sorting through the table header
             # '': sorted asc, '-':sorted desc, '*': not sorted (ignore tag)
+
             sort_style = {'-': 'sorted-dn', '': 'sorted-up', '*': 'not-sorted'}[order_specs.get(i, '*')]
             field_tag = ({'': '-', '-': '*', '*': ''}[order_specs.get(i, '*')], i)
             rest_tags = [(v, k) for k, v in order_specs.items() if k != i]
             sort_val = '.'.join(['{0}{1}'.format(d, c) for d, c in [field_tag] + rest_tags if d != '*'])
             header_url = self.get_query_string(new_params={ORDER_VAR: sort_val})
-            opts = self.model._meta
 
-            header_text = get_column_title(self.model, field_name)
+            header_text = list_headers.get(field_name, get_column_title(self.model, field_name))
             styles = self.get_list_styles()
 
             header = {

@@ -40,6 +40,9 @@ ItemListView
             functions must take two arguments `transform(value, obj)`, where `obj` is the object corresponding
             to the list row.
 
+        list_headers
+            A dictionary mapping field names to header names for explicitly specifying the column header text.
+
         list_styles
             A dictionary mapping field names to css style classes to add to the HTML of the columns.
 
@@ -74,6 +77,9 @@ ItemListView
             Return the dictionary of transforms to use for the columns. By default, simply returns the value of
             `list_transforms`.
 
+        get_list_headers()
+            Return the dictionary of column headings. By default, simply returns the value of `list_headers`.
+
         get_list_styles()
             Return the dictionary of column css styles. By default, simply returns the value of `list_styles`.
 
@@ -106,6 +112,7 @@ Example views.py:
         list_filters = ['kind', 'parent']
         list_columns = ['id', 'name', 'acronym', 'kind', 'parent__name']
         list_search = ['name', 'kind__name']
+        list_headers = {'parent__name': 'Mommy'}
 
         link_url = 'library:topic-detail'
         link_field = 'name'
