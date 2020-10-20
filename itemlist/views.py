@@ -29,7 +29,7 @@ def get_column_title(model, name):
     if '__' not in name:
         try:
             return opts.get_field(name).verbose_name.title()
-        except models.FieldDoesNotExist:
+        except FieldDoesNotExist:
             # For non-field list_display values, check for the function
             # attribute "short_description". If that doesn't exist, fall back
             # to the method name.
@@ -158,7 +158,7 @@ class ItemListView(ListView):
             field_name = column.split('__')[0]
             try:
                 field = self.model._meta.get_field(field_name)
-            except models.FieldDoesNotExist:
+            except FieldDoesNotExist:
                 # not a field, perhaps a method or an annotation
                 pass
             else:
@@ -317,7 +317,7 @@ class ItemListView(ListView):
         for field_name in list_columns:
             try:
                 field = opts.get_field(field_name)
-            except models.FieldDoesNotExist:
+            except FieldDoesNotExist:
                 # For non-field list_display values, the value is either a method
                 # or a property
                 field = None

@@ -1,6 +1,5 @@
 from django import template
-from django.core.exceptions import ObjectDoesNotExist
-from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist, FieldDoesNotExist
 from django.db import models
 from django.utils.encoding import smart_str
 from django.utils.html import mark_safe, escape
@@ -47,7 +46,7 @@ def get_row_values(obj, view):
     for field_name in list_display:
         try:
             field = opts.get_field(field_name)
-        except models.FieldDoesNotExist:
+        except FieldDoesNotExist:
             # For non-field list_display values, the value is either a method
             # or a property.
             try:
