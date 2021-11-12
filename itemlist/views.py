@@ -2,8 +2,6 @@ import operator
 import re
 from collections import OrderedDict
 from datetime import date, datetime, time
-from functools import reduce
-
 from django.contrib import admin
 from django.contrib.admin import FieldListFilter
 from django.contrib.admin.options import IncorrectLookupParameters
@@ -11,10 +9,11 @@ from django.contrib.admin.utils import get_fields_from_path, lookup_needs_distin
 from django.core.exceptions import FieldDoesNotExist
 from django.db import models
 from django.urls import reverse_lazy
-from django.utils import text, timezone, safestring
+from django.utils import timezone, safestring
 from django.utils.encoding import force_str
 from django.utils.http import urlencode
 from django.views.generic import ListView
+from functools import reduce
 
 ALL_VAR = 'all'
 ORDER_VAR = 'order'
