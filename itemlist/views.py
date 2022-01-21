@@ -133,9 +133,6 @@ class ItemListView(ListView):
             new_qs = filter_spec.queryset(self.request, qs)
             qs = new_qs if new_qs is not None else qs
 
-        # Set ordering.
-        qs = qs.order_by(*self.get_ordering())
-
         # Search
         search_use_distinct = False
         if search_text:
@@ -145,6 +142,9 @@ class ItemListView(ListView):
 
         # add annotations for related entries in other tables
         qs = qs.annotate(**annotation)
+
+        # Set ordering.
+        qs = qs.order_by(*self.get_ordering())
 
         # Remove duplicates from results, if necessary
         if search_use_distinct or filter_use_distinct:
