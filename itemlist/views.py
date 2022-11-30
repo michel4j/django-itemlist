@@ -5,7 +5,7 @@ from datetime import date, datetime, time
 from django.contrib import admin
 from django.contrib.admin import FieldListFilter
 from django.contrib.admin.options import IncorrectLookupParameters
-from django.contrib.admin.utils import get_fields_from_path, lookup_needs_distinct, prepare_lookup_value
+from django.contrib.admin.utils import get_fields_from_path, prepare_lookup_value
 from django.core.exceptions import FieldDoesNotExist
 from django.db import models
 from django.urls import reverse_lazy
@@ -14,6 +14,11 @@ from django.utils.encoding import force_str
 from django.utils.http import urlencode
 from django.views.generic import ListView
 from functools import reduce
+
+try:
+    from django.contrib.admin.utils import lookup_needs_distinct
+except ImportError:
+    from django.contrib.admin.utils import lookup_spawns_duplicates as lookup_needs_distinct 
 
 ALL_VAR = 'all'
 ORDER_VAR = 'order'
