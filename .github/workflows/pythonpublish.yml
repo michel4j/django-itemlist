@@ -1,4 +1,4 @@
-- name: PyPI Deployment
+name: PyPI Deployment
   uses: casperdcl/deploy-pypi@v2.2.2
   with:
     user: ${{ secrets.PYPI_USERNAME }}
