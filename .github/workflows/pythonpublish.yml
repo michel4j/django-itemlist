@@ -1,5 +1,15 @@
-name: PyPI Deployment
-  uses: casperdcl/deploy-pypi@v2.2.2
-  with:
-    user: ${{ secrets.PYPI_USERNAME }}
-    password: ${{ secrets.PYPI_PASSWORD }}
+name: Upload Python Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: PyPI Deployment
+        uses: casperdcl/deploy-pypi@v2.2.2
+        with:
+          user: ${{ secrets.PYPI_USERNAME }}
+          password: ${{ secrets.PYPI_PASSWORD }}
