@@ -227,7 +227,6 @@ class ItemListView(ListView):
         if not (set(ordering) & {'pk', '-pk'}):
             ordering.append('-pk')
 
-        print(ordering)
         return ordering
 
     def get_query_string(self, new_params=None, remove=None):
