@@ -46,6 +46,9 @@ ItemListView
         list_styles
             A dictionary mapping field names to css style classes to add to the HTML of the columns.
 
+        list_title
+            A string to use as the title of the list. If `None` (default), the model name is used.
+
         link_url
             A named url for creating links to detailed pages. If `None` (default), no links are created.
 
@@ -82,6 +85,9 @@ ItemListView
 
         get_list_styles()
             Return the dictionary of column css styles. By default, simply returns the value of `list_styles`.
+
+        get_list_title()
+            Return the title of the list. By default, simply returns the value of `list_title`.
 
         get_link_url(obj)
             Return the detail url link for the current object/row. By default, uses the named url from `link_url`, the `kwarg` from

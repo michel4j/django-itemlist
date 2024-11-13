@@ -56,6 +56,7 @@ class ItemListView(ListView):
     list_transforms = {}
     list_styles = {}
     list_search = []
+    list_title = ""
 
     link_url = None
     link_kwarg = 'pk'
@@ -102,6 +103,9 @@ class ItemListView(ListView):
             return reverse_lazy(self.link_url, kwargs={self.get_link_kwarg(): getattr(obj, self.get_link_kwarg())})
         else:
             return None
+
+    def get_list_title(self):
+        return self.list_title if self.list_title else self.model._meta.verbose_name_plural.title()
 
     def get_link_attr(self, obj):
         return self.link_attr

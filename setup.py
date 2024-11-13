@@ -12,7 +12,7 @@ with open(os.path.join(os.path.dirname(__file__), 'requirements.txt')) as f:
 
 setup(
     name='django-itemlist',
-    version='0.2.12',
+    version='0.2.13',
     packages=find_packages(),
     url='https://github.com/michel4j/django-itemlist',
     include_package_data=True,
@@ -26,7 +26,6 @@ setup(
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 3',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
