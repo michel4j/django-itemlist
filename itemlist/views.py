@@ -28,15 +28,20 @@ CSV_VAR = 'csv'
 GRID_VAR = 'grid'
 
 
+
+def column_is_field(model, name):
+    try:
+        model._meta.get_field(name)
+    except FieldDoesNotExist:
+        return False
+    return True
+
 def get_column_title(model, name):
     opts = model._meta
     if '__' not in name:
-        try:
+        if column_is_field(model, name):
             return opts.get_field(name).verbose_name.title()
-        except FieldDoesNotExist:
-            # For non-field list_display values, check for the function
-            # attribute "short_description". If that doesn't exist, fall back
-            # to the method name.
+        else:
             attr = getattr(model, name, '')
             try:
                 header = attr.short_description
@@ -203,7 +208,15 @@ class ItemListView(ListView):
                 try:
                     prefix, index = order_field.rpartition('-')[1:]
                     field_name = column_fields[int(index)]
-                    ordering.append(prefix + field_name)
+
+                    if column_is_field(self.model, field_name):
+                        ordering.append(prefix + field_name)
+                    else:
+                        # if the column is not a model field, and has a sort_field attribute, use that
+                        # otherwise, ignore it
+                        attr = getattr(self.model, field_name, '')
+                        if hasattr(attr, 'sort_field'):
+                            ordering.append(prefix + attr.sort_field)
                 except (IndexError, ValueError):
                     continue  # Invalid ordering specified, skip it.
 
@@ -213,6 +226,8 @@ class ItemListView(ListView):
 
         if not (set(ordering) & {'pk', '-pk'}):
             ordering.append('-pk')
+
+        print(ordering)
         return ordering
 
     def get_query_string(self, new_params=None, remove=None):

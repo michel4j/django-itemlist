@@ -27,7 +27,12 @@ ItemListView
 
     *Methods and attributes*
         list_columns
-            A list of field names to display in columns. Supports double underscore lookups.
+            A list of field names to display in columns. Supports double underscore lookups.  Non-field model
+            attributes and methods can be used by specifying the attribute or method name as a string. In this
+            case the value of the attribute or the result of the method will be displayed in the column. However,
+            sorting and filtering will not work for these columns by default. To enable sorting through an associated
+            field, set the `sort_field` attribute on the method. The title of the column can be customized by adding
+            a 'short_description' attribute to the method.
 
         list_filters
             A list of field names or `django.contrib.admin.SimpleListFilter` instances for generating filters on the list.
