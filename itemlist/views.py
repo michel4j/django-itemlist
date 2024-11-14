@@ -67,6 +67,7 @@ class ItemListView(ListView):
     link_kwarg = 'pk'
     link_attr = None
     link_field = None
+    show_facets = False
 
     ordering = []
 
