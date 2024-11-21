@@ -12,8 +12,8 @@ with open(os.path.join(os.path.dirname(__file__), 'requirements.txt')) as f:
 
 setup(
     name='django-itemlist',
-    version='0.3.3',
-    packages=find_packages(),
+    version='0.3.4',
+    packages=["itemlist"],
     url='https://github.com/michel4j/django-itemlist',
     include_package_data=True,
     license='MIT License',
