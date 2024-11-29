@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "django-itemlist"
+version = "0.3.5"
+description = "A customizable Django Admin ChangeList-like app for use outside of the admin."
+authors = ["Michel Fodje <michel4j@gmail.com>"]
+license = "MIT"
+readme = "README.rst"
+homepage = "https://github.com/michel4j/django-itemlist"
+packages = [
+    { include = "itemlist", from = "." },
+]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+django = ">= 4.2"
+
+[tool.poetry.dev-dependencies]
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

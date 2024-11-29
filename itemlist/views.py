@@ -382,7 +382,8 @@ class ItemListView(ListView):
     def get_filter_data(self, flt):
         title = flt.title
         choices = list(flt.choices(self))
-        selected = [choice['display'] for choice in choices if choice['selected']][0]
+        choice_list = [choice['display'] for choice in choices if choice['selected']]
+        selected = None if not choice_list else choice_list[0]
         return title, choices, selected
 
     def get_filters(self):

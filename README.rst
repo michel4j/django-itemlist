@@ -169,14 +169,14 @@ Another template example, equivalent to above. This allows you to reorder/omit c
 Screenshots
 -----------
 
-.. image:: docs/example-list.png
+.. image:: itemlist/docs/example-list.png
   :width: 100%
   :alt: Screenshot with list example
 
-.. image:: docs/example-another-filter-popup.png
+.. image:: itemlist/docs/example-another-filter-popup.png
   :width: 100%
   :alt: Screenshot with filter popup
 
-.. image:: docs/example-search-sort.png
+.. image:: itemlist/docs/example-search-sort.png
   :width: 100%
   :alt: Screenshot showing search and sort
