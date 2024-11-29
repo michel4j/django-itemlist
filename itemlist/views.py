@@ -68,7 +68,7 @@ class ItemListView(ListView):
     link_attr = None
     link_field = None
 
-    add_facets = True
+    add_facets = False
 
     ordering = []
 
@@ -394,7 +394,6 @@ class ItemListView(ListView):
 
     def get_filters(self):
         params = dict(self.request.GET.lists())
-        print(params)
         opts = self.model._meta
         use_distinct = False
         list_filters = self.get_list_filters()
