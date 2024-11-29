@@ -32,7 +32,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-django = ">=4.2, <6"
+django = ">=4.2,<6"
 
 [tool.poetry.dev-dependencies]
 

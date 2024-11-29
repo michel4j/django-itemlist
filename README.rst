@@ -71,6 +71,9 @@ ItemListView
             Column name on which to create links. Must be one of the names included in list_columns. By default the
             first column will be used.
 
+        show_facets
+            Boolean to show or hide the facet counts within the filter titles. Default is `False`.
+
         get_list_columns()
             Return the field names to display in columns. By default, simply returns the value of `list_columns`.
 

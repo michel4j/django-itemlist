@@ -1,7 +1,8 @@
 import operator
 import re
-from collections import OrderedDict
 from datetime import date, datetime, time
+from functools import reduce
+
 from django.contrib import admin
 from django.contrib.admin import FieldListFilter
 from django.contrib.admin.options import IncorrectLookupParameters
@@ -13,12 +14,11 @@ from django.utils import timezone, safestring
 from django.utils.encoding import force_str
 from django.utils.http import urlencode
 from django.views.generic import ListView
-from functools import reduce
 
 try:
     from django.contrib.admin.utils import lookup_needs_distinct
 except ImportError:
-    from django.contrib.admin.utils import lookup_spawns_duplicates as lookup_needs_distinct 
+    from django.contrib.admin.utils import lookup_spawns_duplicates as lookup_needs_distinct
 
 ALL_VAR = 'all'
 ORDER_VAR = 'order'
@@ -28,13 +28,13 @@ CSV_VAR = 'csv'
 GRID_VAR = 'grid'
 
 
-
 def column_is_field(model, name):
     try:
         model._meta.get_field(name)
     except FieldDoesNotExist:
         return False
     return True
+
 
 def get_column_title(model, name):
     opts = model._meta
@@ -67,7 +67,8 @@ class ItemListView(ListView):
     link_kwarg = 'pk'
     link_attr = None
     link_field = None
-    add_facets = False
+
+    add_facets = True
 
     ordering = []
 
@@ -78,6 +79,7 @@ class ItemListView(ListView):
         self.column_attrs = {}
         self.filter_specs = None
         self.has_filters = False
+        self.pk_attname = 'pk'
 
     def get_list_columns(self):
         return self.list_columns
@@ -125,10 +127,11 @@ class ItemListView(ListView):
         context['has_filters'] = self.has_filters
         return context
 
-    def get_queryset(self):
+    def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset()
         self.model = qs.model
-        self.column_attrs = OrderedDict()
+        self.pk_attname = self.model._meta.pk.attname
+        self.column_attrs = {}
         annotation = {}
         for i, field_name in enumerate(self.get_list_columns()):
             if '__' in field_name:
@@ -237,8 +240,8 @@ class ItemListView(ListView):
         :param remove: query parameters to remove
         :return: urlencoded querystring, including initial '?'
         """
-        if new_params is None: new_params = {}
-        if remove is None: remove = []
+        new_params = {} if new_params is None else new_params
+        remove = [] if remove is None else remove
         params = dict(self.request.GET.items())
         remove.extend([PAGE_VAR])
         for r in remove:
@@ -251,7 +254,8 @@ class ItemListView(ListView):
                     del params[k]
             else:
                 params[k] = v
-        return '?{}'.format(urlencode(sorted(params.items())))
+        param_string = urlencode(sorted(params.items()), doseq=True)
+        return f'?{param_string}'
 
     def get_search_results(self, queryset, search_term):
         """
@@ -260,6 +264,7 @@ class ItemListView(ListView):
         :param search_term: search string
         :return: tuple (queryset, distinct), distinct will be True if queryset is likely to contain duplicates
         """
+
         def construct_search(field_name):
             if field_name.startswith('^'):
                 return "{}__istartswith".format(field_name[1:])
@@ -296,10 +301,10 @@ class ItemListView(ListView):
         params = dict(self.request.GET.items())
         ordering_text = params.get(ORDER_VAR, '')
 
-        order_specs = OrderedDict([
-            (int(re.sub(r"\D", "", c)), '-' if c[0] == '-' else '')
+        order_specs = {
+            int(re.sub(r"\D", "", c)): '-' if c[0] == '-' else ''
             for c in ordering_text.split('.') if c
-        ])
+        }
 
         list_headers = self.get_list_headers()
 
@@ -356,7 +361,7 @@ class ItemListView(ListView):
             if isinstance(value, datetime):
                 value = timezone.localtime(value).strftime('%c')
             elif isinstance(value, time):
-                value =  value.strftime('%X')
+                value = value.strftime('%X')
             elif isinstance(value, date):
                 value = value.strftime('%Y-%m-%d')
             elif field and field.choices:
@@ -373,7 +378,8 @@ class ItemListView(ListView):
                 attr = self.get_link_attr(obj)
                 if url:
                     if attr and attr != "href":
-                        value = safestring.mark_safe('<a href="#!" {attr}="{url}">{value}</a>'.format(url=url, value=value, attr=attr))
+                        value = safestring.mark_safe(
+                            '<a href="#!" {attr}="{url}">{value}</a>'.format(url=url, value=value, attr=attr))
                     else:
                         value = safestring.mark_safe('<a href="{href}">{value}</a>'.format(href=url, value=value))
 
@@ -387,21 +393,17 @@ class ItemListView(ListView):
         return title, choices, selected
 
     def get_filters(self):
-        params = dict(self.request.GET.items())
+        params = dict(self.request.GET.lists())
+        print(params)
         opts = self.model._meta
         use_distinct = False
         list_filters = self.get_list_filters()
-        new_params = {}
-        has_filters = False
 
         # Normalize the types of keys
         list_names = [f if isinstance(f, str) else f.parameter_name for f in list_filters]
-        for key, value in params.items():
-            # ignore keys not in list_filters
-            if key.startswith(tuple(list_names)):
-                new_params[force_str(key)] = value
-
+        new_params = {force_str(k): v for k, v in params.items() if k.startswith(tuple(list_names))}
         has_filters = bool(new_params)
+
         filter_specs = []
         for list_filter in list_filters:
             if callable(list_filter):
@@ -420,7 +422,10 @@ class ItemListView(ListView):
                     field_path = field
                     field = get_fields_from_path(self.model, field_path)[-1]
                 model_admin = admin.ModelAdmin(self.model, admin.site)
-                spec = field_list_filter_class(field, self.request, new_params, self.model, model_admin, field_path=field_path)
+                spec = field_list_filter_class(
+                    field, self.request, new_params, self.model, model_admin,
+                    field_path=field_path
+                )
                 # Check if we need to use distinct()
                 use_distinct = (use_distinct or lookup_needs_distinct(opts, field_path))
             if spec and spec.has_output():
