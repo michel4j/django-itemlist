@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-itemlist"
-version = "0.3.5"
+version = "0.3.6"
 description = "A customizable Django Admin ChangeList-like app for use outside of the admin."
 authors = ["Michel Fodje <michel4j@gmail.com>"]
 license = "MIT"
@@ -32,7 +32,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-django = ">=4.2,<6"
+django = "*"
 
 [tool.poetry.dev-dependencies]
 
