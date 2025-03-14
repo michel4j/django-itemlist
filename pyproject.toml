@@ -1,6 +1,5 @@
 [project]
 name = "django-itemlist"
-version = "0.3.6"
 description = "A customizable Django Admin ChangeList-like app for use outside of the admin."
 authors = [
     {name = "Michel Fodje",email = "michel4j@gmail.com"}
@@ -26,20 +25,31 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Internet :: WWW/HTTP",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     "Topic :: Software Development :: Libraries :: Application Frameworks",
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
+dynamic = ["version"]
 
 [tool.poetry]
 packages = [
     { include = "itemlist", from = "." },
 ]
+version = "0.0.0"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=2.0.0,<3.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.poetry.group.dev.dependencies]
 django-crisp-modals = ">=2025.3.10,<2026.0.0"
+
+[tool.poetry.requires-plugins]
+poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+format = "{base}.{revision}{distance}"
