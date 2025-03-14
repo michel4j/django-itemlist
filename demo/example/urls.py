@@ -10,8 +10,8 @@ urlpatterns = [
     path('subjects/', views.SubjectList.as_view(), name='subject-list'),
 
     path('fancy/people/', views.FancyPersonList.as_view(), name='fancy-person-list'),
-    path('fancy/institutions/', views.InstitutionList.as_view(), name='fancy-institution-list'),
-    path('fancy/subjects/', views.SubjectList.as_view(), name='fancy-subject-list'),
+    path('fancy/institutions/', views.FancyInstitutionList.as_view(), name='fancy-institution-list'),
+    path('fancy/subjects/', views.FancySubjectList.as_view(), name='fancy-subject-list'),
 
     path('people/<int:pk>/edit/', views.EditPerson.as_view(), name='person-edit'),
     path('people/add/', views.AddPerson.as_view(), name='person-add'),
