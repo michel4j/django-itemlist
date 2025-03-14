@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block page-heading %}Institutions{% endblock %}
+{% block bread-crumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Institutions</li>
+        </ol>
+    </nav>
+{% endblock %}
+{% block page-tools %}
+    <a href="#0" data-modal-url="{% url 'institution-add' %}" class="d-flex flex-column align-items-center py-3">
+        <i class="bi-plus-circle"></i><br/>
+        <small class="text-muted">Add Institution</small>
+    </a>
+{% endblock %}
+{% block content %}
+    <table class="table table-ruled">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>City</th>
+            <th>Country</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for institute in object_list %}
+            <tr>
+                <td><a href="#!" data-modal-url="{% url 'institution-edit' pk=institute.pk %}">{{ institute.name }}</a></td>
+                <td>{{ institute.city }}</td>
+                <td>{{ institute.country }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if is_paginated %}
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                <li class="page-item">
+                    <a class="page-link"
+                       {% if page_obj.has_previous %}href="?page={{ page_obj.previous_page_number }}"{% endif %}
+                    >Previous</a>
+                </li>
+            <li class="page-item"><span class="page-link" disabled>
+                Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+            </span></li>
+              <li class="page-item">
+                  <a class="page-link"
+                     {% if page_obj.has_next %}href="?page={{ page_obj.next_page_number }}"{% endif %}
+                  >Next</a></li>
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages}}">Last</a></li>
+          </ul>
+        </nav>
+    {% endif %}
+{% endblock %}

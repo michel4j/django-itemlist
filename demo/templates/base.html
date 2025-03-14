@@ -1,0 +1,90 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en" class="{% block html_class %}{% endblock %}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block page_title %}{% endblock %}</title>
+    <link rel="icon" href="{% static 'img/icon.ico' %}">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+    :root {
+        --bs-border-radius: 0.25rem;
+        --bs-body-font-size: 0.95rem;
+        --bs-breadcrumb-font-size: 0.85rem;
+    }
+    a {
+        text-decoration: none;
+    }
+    .modal.fade:not(.show) .modal-dialog {
+      transform: scale(0.8);
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .page-header {
+        border-bottom: 1px solid var(--bs-border-color);
+        margin-bottom: 1rem;
+    }
+    .pagination .page-link{
+        font-size: 0.85rem;
+    }
+    .spin {
+        animation: spin 1s linear infinite;
+    }
+</style>
+    {% block site_css %}{% endblock %}
+    {% block extra_css %}{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    {% block pre_js %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %} bg-light p-5">
+    <div class="container-fluid bg-white p-5">
+    {% block body %}
+        <div class="row">
+            <div class="col">
+                {% block bread-crumbs %}{% endblock %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+            {% block content-header %}
+                <div class="page-header d-flex flex-row justify-content-between align-items-center overflow-ellipsis">
+                    <div class="heading"><h4>{% block page-heading %}&nbsp;{% endblock %}</h4></div>
+                    <div class="no-overflow toolbox">{% block page-tools %}{% endblock %}</div>
+                </div>
+            {% endblock %}
+            {% block object_status %}{% endblock %}
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+    </div>
+
+    <div id="modal-target"></div>
+{% block post_js %}{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'django_crisp_modals/modals.min.js' %}"></script>
+{% block extra_js %}{% endblock %}
+<script>
+    $(document).ready(function () {
+        // enable tooltips
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+
+        const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
+        const dropdownList = [...dropdownElementList].map(dropdownToggleEl => new bootstrap.Dropdown(dropdownToggleEl));
+
+        $('#modal-target').initModal();
+    });
+</script>
+</body>
+</html>

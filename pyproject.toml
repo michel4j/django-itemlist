@@ -1,13 +1,16 @@
-[tool.poetry]
+[project]
 name = "django-itemlist"
 version = "0.3.6"
 description = "A customizable Django Admin ChangeList-like app for use outside of the admin."
-authors = ["Michel Fodje <michel4j@gmail.com>"]
+authors = [
+    {name = "Michel Fodje",email = "michel4j@gmail.com"}
+]
 license = "MIT"
 readme = "README.rst"
 homepage = "https://github.com/michel4j/django-itemlist"
-packages = [
-    { include = "itemlist", from = "." },
+requires-python = ">=3.10"
+dependencies = [
+    "django (>=4.2.20,<6.0.0)"
 ]
 classifiers = [
     "Environment :: Web Environment",
@@ -20,7 +23,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -30,13 +32,14 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 
-[tool.poetry.dependencies]
-python = "^3.9"
-django = "*"
-
-[tool.poetry.dev-dependencies]
-
+[tool.poetry]
+packages = [
+    { include = "itemlist", from = "." },
+]
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+django-crisp-modals = ">=2025.3.10,<2026.0.0"

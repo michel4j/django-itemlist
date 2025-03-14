@@ -1,51 +1,105 @@
 <div class="row my-2">
     <div class="col-sm-4 d-flex align-items-center">
-        <input name="search" type="search" class="form-control form-control-sm" placeholder="Search"
-               onkeypress="updateParam(this, event);">
+        <label aria-label="Search" class="flex-grow-1">
+            <input id="list-search" name="search" type="search" class="col-12 form-control form-control-sm" placeholder="Search">
+        </label>
     </div>
     <div class="col-sm-8">
-        <ul class="filter-list nav nav-pills d-flex flex-row align-items-center" style="font-size: 0.95rem;">
+        <ul class="filter-list nav">
             {% for title, spec, selected in filters %}
-                <li class="dropdown pr-3">
-                    <a class="dropdown-toggle d-flex flex-row align-items-center nav-link py-1 px-1"
-                       data-toggle="dropdown" href="#0!" style="line-height: 0.85;">
-                        <div>
-                            <div class="filter-name">{{ title|capfirst }}</div>
-                            <small class="filter-selected">{{ selected|truncatechars:20 }}</small>
-                        </div>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       role="button"
+                       data-bs-toggle="dropdown"
+                       aria-expanded="false"
+                       href="#0"
+                    >
+                        <div class="filter-name">{{ title|capfirst }}</div>
+                        <small class="filter-selected text-muted">{{ selected|truncatechars:20 }}</small>
                     </a>
-                    <ul class="dropdown-menu" style="font-size: 0.85rem; max-height: 60vh; overflow-y: auto;">
+                    <ul class="dropdown-menu">
                         {% for choice in spec %}
                             <li>
-                                <a class="dropdown-item filter px-3 {% if choice.selected %}active{% endif %}"
-                                   href="{{ choice.query_string }}">{{ choice.display|escape }}</a>
+                                <a class="dropdown-item {% if choice.selected %}active{% endif %}"
+                                   href="{{ choice.query_string }}">
+                                    {{ choice.display|escape }}
+                                </a>
                             </li>
                         {% endfor %}
                     </ul>
                 </li>
                 {% if forloop.last %}
-                    <li class="nav-link ml-auto text-right flex-shrink">
-                        <span style="line-height: 0.8;">{{ paginator.count }} item{{ paginator.count|pluralize }}</span>
-                        {% if has_filters %}
-                            <span class="text-muted">&nbsp;|&nbsp;</span><a href="." data-toggle="tooltip" title="Show All" class="clear-filters">All</a>
-                        {% endif %}
+                    <li class="nav-item flex-grow-1">
+                        &nbsp;
+                    </li>
+                    <li class="nav-item d-flex align-items-center">
+                        <div class="filter-counts">
+                            <span>{{ paginator.count }} item{{ paginator.count|pluralize }}</span>
+                            {% if has_filters %}
+                                <a href="." data-toggle="tooltip" title="Clear filters" class="clear-filters">
+                                <svg fill="none" class="filter-icon" stroke="currentColor"
+                                     aria-hidden="true"
+                                     stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                     viewBox="0 0 24 24">
+                                    <path d="m0.973 1.011 22 22m-6.586-11.84 6.006-6.052h-10.47m-6.89 0-3.652-0.0693 8.586 8.877v6.089l3.912 1.862v-7.952"/>
+                                </svg>
+                                </a>
+                            {% endif %}
+                        </div>
                     </li>
                 {% endif %}
             {% endfor %}
         </ul>
     </div>
 </div>
+<style>
+    .filter-list .filter-name {
+        font-size: 0.9em;
+        line-height: 0.9;
+    }
+    .filter-list svg.filter-icon {
+        width: 1.25em;
+    }
+    .filter-list .nav-link {
+        padding: 0 1em 0 0;
+    }
 
+    .filter-list .filter-counts {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .filter-list .filter-counts > *  {
+        padding: 0 1em;
+    }
+    .filter-list .filter-counts > * + * {
+        border-left: 1px solid var(--bs-border-color-translucent);
+        padding-right: 0.5em;
+    }
+
+    .filter-list .filter-selected {
+        line-height: 0.9;
+    }
+
+    .filter-list .dropdown-menu {
+        min-width: 10rem;
+        font-size: 0.9em;
+    }
+</style>
 <script>
     // Function to Perform search by updating search parameter to keep existing filters
-    function updateParam(element, event) {
-        if (event.which === 10 || event.which === 13) {
-            event.preventDefault();
+    $(document).ready(function () {
+        $('#list-search').on('keypress', updateParam);
+    });
+    function updateParam(e) {
+        if (e.which === 10 || e.which === 13) {
+            e.preventDefault();
             const PAGE_VAR = 'page';
             const SEARCH_VAR = 'search';
 
-            let value = encodeURI($(element).val());
-            let kvp = document.location.search.substr(1).split('&');
+            let value = encodeURI($(this).val());
+            let kvp = document.location.search.substring(1).split('&');
             let params = {};
             let new_params = [];
             let i = kvp.length;

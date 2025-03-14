@@ -1,12 +1,10 @@
 {% load static %}
 {% load itemlist %}
-<table class="table table-sm item-list">
+<table class="table item-list table-sm">
     <thead>
     <tr>
         {% for header in view.get_headers %}
-            <th scope='col' class='{{ header.style }}'>{% if header.url %}<a href='{{ header.url }}'>{{ header.text }}</a>{% else %}
-                {{ header.text }}{% endif %}
-            </th>
+            <th scope='col' class='{{ header.style }}'>{% if header.url %}<a href='{{ header.url }}'>{{ header.text }}</a>{% else %}{{ header.text }}{% endif %}&nbsp;</th>
         {% endfor %}
     </tr>
     </thead>
