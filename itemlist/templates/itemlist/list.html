@@ -13,17 +13,29 @@
         {% show_row obj %}
     {% empty %}
         <tr>
-            <td colspan="{{ num_columns }}" class="text-center py-5 border-bottom">No Items</td>
+            <td colspan="{{ num_columns }}" class="text-muted text-center py-5 border-bottom">No Items</td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
-<style scoped>
+<style>
+    .item-list {
+        width: 100%;
+    }
     .item-list th.sorted-dn::after {
         content: "\02191";
     }
     .item-list th.sorted-up::after {
         content: "\02193";
+    }
+    .item-list thead {
+        border-top: 1px solid var(--bs-border-color-translucent);
+        border-bottom: 2px solid var(--bs-border-color-translucent);
+    }
+    .item-list thead th {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>
 
