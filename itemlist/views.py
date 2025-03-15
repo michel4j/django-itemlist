@@ -125,6 +125,7 @@ class ItemListView(ListView):
         context['num_columns'] = len(self.get_list_columns())
         context['filters'] = [self.get_filter_data(spec) for spec in self.filter_specs]
         context['has_filters'] = self.has_filters
+        context['list_title'] = self.get_list_title()
         return context
 
     def get_queryset(self, *args, **kwargs):

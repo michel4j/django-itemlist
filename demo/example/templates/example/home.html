@@ -6,14 +6,14 @@
 
 {% block content %}
     <p>Three types of objects can be managed: People, Institutions, and Subjects</p>
-    <h4>Original Plain Lists</h4>
+    <h4>Plain Lists</h4>
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><a href="{% url 'person-list' %}"><i class="bi-people"></i>&emsp;People</a></li>
         <li class="list-group-item"><a href="{% url 'institution-list' %}"><i class="bi-buildings"></i>&emsp;Institutions</a></li>
         <li class="list-group-item"><a href="{% url 'subject-list' %}"><i class="bi-journal-bookmark"></i>&emsp;Subjects</a></li>
     </ul>
     <hr/>
-    <h4>Fancy Item Lists</h4>
+    <h4>Fancy Lists</h4>
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><a href="{% url 'fancy-person-list' %}"><i class="bi-people"></i>&emsp;People</a></li>
         <li class="list-group-item"><a href="{% url 'fancy-institution-list' %}"><i class="bi-buildings"></i>&emsp;Institutions</a></li>

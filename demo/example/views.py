@@ -26,7 +26,7 @@ class FancyPersonList(ItemListView):
         MonthFilterFactory.new('created'),
         QuarterFilterFactory.new('created'),
     ]
-    list_title = 'Fancy Person List'
+    list_title = 'Fancy People'
     link_url = 'person-edit'
     link_attr = 'data-modal-url'
     paginate_by = 15
@@ -44,7 +44,7 @@ class FancyInstitutionList(ItemListView):
     list_columns = ['name', 'city', 'country', 'parent']
     list_search = ['name', 'city', 'country', 'parent__name', 'subjects__name']
     list_filters = ['parent', 'created']
-    list_title = 'Fancy Institution List'
+    list_title = 'Fancy Institutions'
     link_url = 'institution-edit'
     link_attr = 'data-modal-url'
     paginate_by = 15
@@ -61,7 +61,7 @@ class FancySubjectList(ItemListView):
     template_name = 'list.html'
     list_columns = ['name', 'description']
     list_search = ['name', 'description', 'institutions__name']
-    list_title = 'Fancy Subject List'
+    list_title = 'Fancy Subjects'
     link_url = 'subject-edit'
     link_attr = 'data-modal-url'
     paginate_by = 15
