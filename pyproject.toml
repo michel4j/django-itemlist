@@ -6,7 +6,6 @@ authors = [
 ]
 license = "MIT"
 readme = "README.rst"
-homepage = "https://github.com/michel4j/django-itemlist"
 requires-python = ">=3.10"
 dependencies = [
     "django (>=4.2.20,<6.0.0)"
@@ -32,6 +31,10 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/michel4j/django-itemlist"
+Issues = "https://github.com/michel4j/django-itemlist/issues"
 
 [tool.poetry]
 packages = [
