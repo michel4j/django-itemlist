@@ -4,6 +4,7 @@ from crisp_modals.views import ModalUpdateView, ModalCreateView, ModalDeleteView
 from demo.example.forms import PersonForm, InstitutionForm, SubjectForm
 from demo.example.models import Person, Institution, Subject
 from itemlist.views import ItemListView
+from itemlist.filters import YearLimitFilterFactory, MonthFilterFactory, QuarterFilterFactory
 
 
 # Create your views here.
@@ -18,7 +19,13 @@ class FancyPersonList(ItemListView):
     template_name = 'list.html'
     list_columns = ['first_name', 'last_name', 'age', 'type', 'institution']
     list_search = ['first_name', 'last_name', 'age', 'type', 'bio', 'institution__name']
-    list_filters = ['type', 'created']
+    list_filters = [
+        'type',
+        YearLimitFilterFactory.new('created', 'since'),
+        YearLimitFilterFactory.new('created', 'until'),
+        MonthFilterFactory.new('created'),
+        QuarterFilterFactory.new('created'),
+    ]
     list_title = 'Fancy Person List'
     link_url = 'person-edit'
     link_attr = 'data-modal-url'
@@ -34,7 +41,7 @@ class InstitutionList(ListView):
 class FancyInstitutionList(ItemListView):
     model = Institution
     template_name = 'list.html'
-    list_columns = ['name', 'city', 'country', 'parent__name']
+    list_columns = ['name', 'city', 'country', 'parent']
     list_search = ['name', 'city', 'country', 'parent__name', 'subjects__name']
     list_filters = ['parent', 'created']
     list_title = 'Fancy Institution List'
