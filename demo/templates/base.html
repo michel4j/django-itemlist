@@ -6,80 +6,119 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block page_title %}{% endblock %}</title>
+    <title>{% block document-title %}{% endblock %}</title>
     <link rel="icon" href="{% static 'img/icon.ico' %}">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@200;300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/css/tabler.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css"/>
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<style>
-    :root {
-        --bs-border-radius: 0.25rem;
-        --bs-body-font-size: 0.95rem;
-        --bs-breadcrumb-font-size: 0.85rem;
-    }
-    a {
-        text-decoration: none;
-    }
-    .modal.fade:not(.show) .modal-dialog {
-      transform: scale(0.8);
-    }
-    .icon-lg {
-        font-size: 1.5rem;
-    }
-    .icon-md {
-        font-size: 1.25rem;
-    }
-    .icon-sm {
-        font-size: 1rem;
-    }
-    .icon-xs {
-        font-size: 0.75rem;
-    }
+    <style>
+        :root {
+            --tblr-font-sans-serif: "Fira Sans";
+            --tblr-border-radius: 4px;
+            --tblr-border-radius-sm: 3px;
+            --tblr-border-radius-lg: 6px;
+            --tblr-border-radius-xl: 0.75rem;
+            --tblr-border-radius-xxl: 1.25rem;
+            --tblr-border-radius-2xl: var(--tblr-border-radius-xxl);
+            --tblr-border-radius-pill: 100rem;
+        }
 
-    .page-header {
-        border-bottom: 1px solid var(--bs-border-color-translucent);
-        margin-bottom: 1rem;
-    }
-    .pagination .page-link{
-        font-size: 0.85rem;
-    }
+        i:before {
+            font-family: "tabler-icons" !important;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant:
+            normal;
+            text-transform: none;
+            line-height: 1;
+            text-decoration: none !important;
+            {#-webkit-font-smoothing: antialiased;#}
+            {#-moz-osx-font-smoothing: grayscale;#}
+        }
 
-</style>
+        a, a:hover, a:active, a:visited {
+            text-decoration: none;
+        }
+
+        .modal.fade:not(.show) .modal-dialog {
+            transform: scale(0.8);
+        }
+
+        .icon-lg {
+            font-size: 1.5rem;
+        }
+
+        .icon-md {
+            font-size: 1.25rem;
+        }
+
+        .icon-sm {
+            font-size: 1rem;
+        }
+
+        .icon-xs {
+            font-size: 0.75rem;
+        }
+
+        .page-header {
+            border-bottom: 1px solid var(--bs-border-color-translucent);
+            margin-bottom: 1rem;
+        }
+
+        .pagination .page-link {
+            font-size: 0.85rem;
+        }
+
+    </style>
     {% block site_css %}{% endblock %}
     {% block extra_css %}{% endblock %}
     {% block pre_js %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %} bg-light p-5">
-    <div class="container-fluid bg-white p-5">
+<div class="container-fluid bg-white p-5">
     {% block body %}
-        <div class="row">
-            <div class="col">
-                {% block bread-crumbs %}{% endblock %}
+        {% block content-header %}
+        <nav class="mb-3" aria-label="breadcrumb">
+        {% block bread-crumbs %}{% endblock %}
+        </nav>
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="page-pretitle">{% block page-pretitle %}{% endblock %}</div>
+                    <h2 class="page-title">{% block page-title %}{% endblock %}</h2>
+                    <div class="page-subtitle">{% block page-subtitle %}{% endblock %}</div>
+                </div>
+                <div class="col-auto ms-auto">
+                    {% block page-tools %}{% endblock %}
+                </div>
             </div>
         </div>
+        {% endblock %}
+
         <div class="row">
             <div class="col">
-            {% block content-header %}
-                <div class="page-header d-flex flex-row justify-content-between align-items-center overflow-ellipsis">
-                    <div class="heading"><h4>{% block page-heading %}&nbsp;{% endblock %}</h4></div>
-                    <div class="no-overflow toolbox">{% block page-tools %}{% endblock %}</div>
-                </div>
-            {% endblock %}
-            {% block object_status %}{% endblock %}
-            {% block content %}
-            {% endblock %}
+                {% block object_status %}{% endblock %}
+                {% block content %}
+                {% endblock %}
             </div>
         </div>
     {% endblock %}
-    </div>
+</div>
 
-    <div id="modal-target"></div>
+<div id="modal-target"></div>
 {% block post_js %}{% endblock %}
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.1.1/dist/js/tabler.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-form@4.3.0/dist/jquery.form.min.js"></script>
 <script src="{% static 'django_crisp_modals/modals.min.js' %}"></script>
 {% block extra_js %}{% endblock %}

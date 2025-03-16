@@ -1,6 +1,6 @@
 {% load static %}
 {% load itemlist %}
-<table class="table item-list table-sm">
+<table class="table item-list">
     <thead>
     <tr>
         {% for header in view.get_headers %}
@@ -27,9 +27,6 @@
     }
     .item-list th.sorted-up::after {
         content: "\02193";
-    }
-    .item-list thead {
-        border-bottom: 2px solid var(--bs-border-color-translucent);
     }
     .item-list thead th {
         overflow: hidden;

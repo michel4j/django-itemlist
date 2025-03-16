@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% block page-heading %}Subjects{% endblock %}
+{% block page-title %}Subjects{% endblock %}
+{% block page-subtitle %}Click on the names to open a modal form{% endblock %}
 {% block bread-crumbs %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -12,7 +13,7 @@
 {% block page-tools %}
     <a href="#0" data-modal-url="{% url 'subject-add' %}"
        class="d-flex flex-column align-items-center justify-content-center py-3">
-        <i class="bi-plus-square icon-md mb-2"></i>
+        <i class="ti-square-plus icon-md"></i>
         <small class="text-muted">Add Subject</small>
     </a>
 {% endblock %}

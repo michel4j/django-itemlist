@@ -1,11 +1,9 @@
 {% extends "itemlist/item_list.html" %}
 
-{% block page-heading %}{{ list_title }}{% endblock %}
+{% block page-title %}{{ list_title }}{% endblock %}
 {% block bread-crumbs %}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ list_title }}</li>
-        </ol>
-    </nav>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ list_title }}</li>
+    </ol>
 {% endblock %}

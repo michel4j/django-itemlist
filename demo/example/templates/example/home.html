@@ -1,22 +1,23 @@
 {% extends 'base.html' %}
 
-{% block page-heading %}
-    Example Application for &mdash; Django Itemlist
+{% block page-pretitle %}django-itemlist{% endblock %}
+{% block page-title %}
+    Example Application
 {% endblock %}
 
 {% block content %}
     <p>Three types of objects can be managed: People, Institutions, and Subjects</p>
     <h4>Plain Lists</h4>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"><a href="{% url 'person-list' %}"><i class="bi-people"></i>&emsp;People</a></li>
-        <li class="list-group-item"><a href="{% url 'institution-list' %}"><i class="bi-buildings"></i>&emsp;Institutions</a></li>
-        <li class="list-group-item"><a href="{% url 'subject-list' %}"><i class="bi-journal-bookmark"></i>&emsp;Subjects</a></li>
+        <li class="list-group-item"><a href="{% url 'person-list' %}"><i class="ti-users"></i>&emsp;People</a></li>
+        <li class="list-group-item"><a href="{% url 'institution-list' %}"><i class="ti-buildings"></i>&emsp;Institutions</a></li>
+        <li class="list-group-item"><a href="{% url 'subject-list' %}"><i class="ti-notebook"></i>&emsp;Subjects</a></li>
     </ul>
     <hr/>
     <h4>Fancy Lists</h4>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"><a href="{% url 'fancy-person-list' %}"><i class="bi-people"></i>&emsp;People</a></li>
-        <li class="list-group-item"><a href="{% url 'fancy-institution-list' %}"><i class="bi-buildings"></i>&emsp;Institutions</a></li>
-        <li class="list-group-item"><a href="{% url 'fancy-subject-list' %}"><i class="bi-journal-bookmark"></i>&emsp;Subjects</a></li>
+        <li class="list-group-item"><a href="{% url 'fancy-person-list' %}"><i class="ti-users"></i>&emsp;People</a></li>
+        <li class="list-group-item"><a href="{% url 'fancy-institution-list' %}"><i class="ti-buildings"></i>&emsp;Institutions</a></li>
+        <li class="list-group-item"><a href="{% url 'fancy-subject-list' %}"><i class="ti-notebook"></i>&emsp;Subjects</a></li>
     </ul>
 {% endblock %}

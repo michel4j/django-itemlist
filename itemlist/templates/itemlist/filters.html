@@ -28,27 +28,27 @@
                         {% endfor %}
                     </ul>
                 </li>
-                {% if forloop.last %}
-                    <li class="nav-item flex-grow-1">
-                        &nbsp;
-                    </li>
-                    <li class="nav-item d-flex align-items-center">
-                        <div class="filter-counts">
-                            <span>{{ paginator.count }} item{{ paginator.count|pluralize }}</span>
-                            {% if has_filters %}
-                                <a href="." data-toggle="tooltip" title="Clear filters" class="clear-filters">
-                                <svg fill="none" class="filter-icon" stroke="currentColor"
-                                     aria-hidden="true"
-                                     stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                     viewBox="0 0 24 24">
-                                    <path d="m0.973 1.011 22 22m-6.586-11.84 6.006-6.052h-10.47m-6.89 0-3.652-0.0693 8.586 8.877v6.089l3.912 1.862v-7.952"/>
-                                </svg>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </li>
-                {% endif %}
             {% endfor %}
+            <li class="nav-item flex-grow-1">
+                &nbsp;
+            </li>
+            <li class="nav-item d-flex align-items-center">
+                <div class="filter-counts">
+                    <span>{{ paginator.count }} item{{ paginator.count|pluralize }}</span>
+                    {% if has_filters %}
+                        <a href="." data-toggle="tooltip" title="Clear filters" class="clear-filters">
+                        <svg  xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" class="filter-icon"
+                              fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"
+                              stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M8 4h12v2.172a2 2 0 0 1 -.586 1.414l-3.914 3.914m-.5 3.5v4l-6 2v-8.5l-4.48
+                            -4.928a2 2 0 0 1 -.52 -1.345v-2.227" />
+                            <path d="M3 3l18 18" />
+                        </svg>
+                        </a>
+                    {% endif %}
+                </div>
+            </li>
         </ul>
     </div>
 </div>
@@ -58,10 +58,11 @@
         line-height: 0.9;
     }
     .filter-list svg.filter-icon {
-        width: 1.25em;
+        width: 1.5em;
     }
     .filter-list .nav-link {
         padding: 0 1em 0 0;
+        display: block;
     }
 
     .filter-list .filter-counts {
@@ -74,7 +75,7 @@
         padding: 0 1em;
     }
     .filter-list .filter-counts > * + * {
-        border-left: 1px solid var(--bs-border-color-translucent);
+        border-left: 1px solid rgba(0, 0, 0, 0.175);
         padding-right: 0.5em;
     }
 
