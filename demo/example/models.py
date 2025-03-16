@@ -31,6 +31,12 @@ class Institution(models.Model):
         return self.name
 
 
+# Through links
+Institution.subjects.through.__str__ = lambda x: f'{x.subject}/{x.institution}'
+Institution.subjects.through._meta.verbose_name = _('Institution Subject')
+Institution.subjects.through._meta.verbose_name_plural = _('Institution Subjects')
+
+
 class Person(models.Model):
     class Type(models.TextChoices):
         ADMIN = 'admin', _('Administrator')
