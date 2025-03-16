@@ -41,12 +41,13 @@ class InstitutionList(ListView):
 class FancyInstitutionList(ItemListView):
     model = Institution
     template_name = 'list.html'
-    list_columns = ['name', 'city', 'country', 'parent']
+    list_columns = ['id', 'name', 'city', 'country', 'parent']
     list_search = ['name', 'city', 'country', 'parent__name', 'subjects__name']
     list_filters = ['parent', 'created']
     list_title = 'Fancy Institutions'
     link_url = 'institution-edit'
     link_attr = 'data-modal-url'
+    link_field = 'name'
     paginate_by = 15
 
 
