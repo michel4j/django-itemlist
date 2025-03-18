@@ -40,7 +40,11 @@ def get_column_title(model, name):
     opts = model._meta
     if '__' not in name:
         if column_is_field(model, name):
-            return opts.get_field(name).verbose_name.title()
+            field = opts.get_field(name)
+            try:
+                return field.verbose_name.title()
+            except AttributeError:
+                return name.replace('_', ' ').title()
         else:
             attr = getattr(model, name, '')
             try:
@@ -51,7 +55,11 @@ def get_column_title(model, name):
     else:
         this, rest = name.split('__', 1)
         field = opts.get_field(this)
-        return field.verbose_name.title() + ' / ' + get_column_title(field.related_model(), rest)
+        try:
+            return field.verbose_name.title() + ' / ' + get_column_title(field.related_model(), rest)
+        except AttributeError:
+            return field.name.replace('_', ' ').title() + ' / ' + get_column_title(field.related_model(), rest)
+
 
 
 class ItemListView(ListView):
