@@ -95,39 +95,31 @@
 </style>
 <script>
     // Function to Perform search by updating search parameter to keep existing filters
-    $(document).ready(function () {
-        $('#list-search').on('keypress', updateParam);
-    });
-    // Handle data-url and data-href
-    document.querySelectorAll('[data-filter]').forEach(function (el) {
-        el.addEventListener('click', function (e) {
-            e.stopPropagation();
-            window.location.href = el.getAttribute('data-filter');
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchBox = document.getElementById('list-search');
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchValue = urlParams.get('search') || '';
+        if (searchBox) {
+            searchBox.addEventListener('keypress', updateParam);
+            searchBox.value = decodeURIComponent(searchValue);
+        }
 
+        // Handle data-filter click events
+        document.querySelectorAll('[data-filter]').forEach(function (el) {
+            el.addEventListener('click', function (e) {
+                e.stopPropagation();
+                window.location.href = el.getAttribute('data-filter');
+
+            });
         });
     });
+
     function updateParam(e) {
         if (e.which === 10 || e.which === 13) {
             e.preventDefault();
-            const PAGE_VAR = 'page';
-            const SEARCH_VAR = 'search';
-
-            let value = encodeURI($(this).val());
-            let kvp = document.location.search.substring(1).split('&');
-            let params = {};
-            let new_params = [];
-            let i = kvp.length;
-            let x;
-            while (i--) {
-                x = kvp[i].split('=');
-                if (x[0] === SEARCH_VAR) x[1] = value;
-                if (x[0] === PAGE_VAR) x[1] = '1';
-            }
-            params[SEARCH_VAR] = value;
-            $.each(params, function (key, value) {
-                new_params.push(key + '=' + value);
-            });
-            document.location.search = new_params.join('&');
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('search', e.target.value);
+            window.location.search = urlParams.toString();
         }
     }
 </script>
