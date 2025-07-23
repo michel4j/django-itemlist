@@ -1,3 +1,4 @@
+{% spaceless %}
 <div class="row align-items-center my-2">
     <div class="col-sm-4 d-flex align-items-center">
         <label aria-label="Search" class="flex-grow-1">
@@ -21,7 +22,7 @@
                         {% for choice in spec %}
                             <li>
                                 <a class="dropdown-item {% if choice.selected %}active{% endif %}"
-                                   href="{{ choice.query_string }}">
+                                   href="#0" data-filter="{{ choice.query_string }}">
                                     {{ choice.display|escape|truncatechars:50 }}
                                 </a>
                             </li>
@@ -40,9 +41,8 @@
                         <svg  xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" class="filter-icon"
                               fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"
                               stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M8 4h12v2.172a2 2 0 0 1 -.586 1.414l-3.914 3.914m-.5 3.5v4l-6 2v-8.5l-4.48
-                            -4.928a2 2 0 0 1 -.52 -1.345v-2.227" />
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M8 4h12v2.172a2 2 0 0 1 -.586 1.414l-3.914 3.914m-.5 3.5v4l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227" />
                             <path d="M3 3l18 18" />
                         </svg>
                         </a>
@@ -52,6 +52,7 @@
         </ul>
     </div>
 </div>
+{% endspaceless %}
 <style>
     .filter-list .filter-name {
         font-size: 0.9em;
@@ -96,6 +97,14 @@
     // Function to Perform search by updating search parameter to keep existing filters
     $(document).ready(function () {
         $('#list-search').on('keypress', updateParam);
+    });
+    // Handle data-url and data-href
+    document.querySelectorAll('[data-filter]').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+            e.stopPropagation();
+            window.location.href = el.getAttribute('data-filter');
+
+        });
     });
     function updateParam(e) {
         if (e.which === 10 || e.which === 13) {

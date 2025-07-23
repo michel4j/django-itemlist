@@ -224,9 +224,12 @@ class ItemListView(ListView):
 
                     if column_is_field(self.model, field_name):
                         ordering.append(prefix + field_name)
+                    elif field_name in self.queryset.query.annotations:
+                        # allow sorting by annotations
+                        ordering.append(prefix + field_name)
                     else:
-                        # if the column is not a model field, and has a sort_field attribute, use that
-                        # otherwise, ignore it
+                        # if the column is not a model field, not an annotation but has a sort_field attribute,
+                        # use that # otherwise, ignore it
                         attr = getattr(self.model, field_name, '')
                         if hasattr(attr, 'sort_field'):
                             ordering.append(prefix + attr.sort_field)

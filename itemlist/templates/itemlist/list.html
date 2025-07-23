@@ -1,5 +1,6 @@
 {% load static %}
 {% load itemlist %}
+{% spaceless %}
 <table class="table item-list">
     <thead>
     <tr>
@@ -18,6 +19,7 @@
     {% endfor %}
     </tbody>
 </table>
+{% endspaceless %}
 <style>
     .item-list {
         width: 100%;
