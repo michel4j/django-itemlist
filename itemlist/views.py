@@ -369,8 +369,7 @@ class ItemListView(ListView):
 
             if field_name in transforms:
                 value = safestring.mark_safe(transforms[field_name](value, obj))
-
-            if isinstance(value, datetime):
+            elif isinstance(value, datetime):
                 value = timezone.localtime(value).strftime('%c')
             elif isinstance(value, time):
                 value = value.strftime('%X')
@@ -391,7 +390,7 @@ class ItemListView(ListView):
                 if url:
                     if attr and attr != "href":
                         value = safestring.mark_safe(
-                            '<a href="#!" {attr}="{url}">{value}</a>'.format(url=url, value=value, attr=attr))
+                            '<a href="#0" {attr}="{url}">{value}</a>'.format(url=url, value=value, attr=attr))
                     else:
                         value = safestring.mark_safe('<a href="{href}">{value}</a>'.format(href=url, value=value))
 
