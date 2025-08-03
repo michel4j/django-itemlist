@@ -61,7 +61,6 @@ def get_column_title(model, name):
             return field.name.replace('_', ' ').title() + ' / ' + get_column_title(field.related_model(), rest)
 
 
-
 class ItemListView(ListView):
     list_filters = []
     list_columns = []
