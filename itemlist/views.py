@@ -170,7 +170,7 @@ class ItemListView(ListView):
         qs = qs.annotate(**annotation)
 
         # Set ordering.
-        qs = qs.order_by(*self.get_ordering())
+        qs = qs.order_by(*self.get_ordering_fields(qs))
 
         # Remove duplicates from results, if necessary
         if search_use_distinct or filter_use_distinct:
@@ -200,13 +200,15 @@ class ItemListView(ListView):
 
         return qs
 
-    def get_ordering(self):
+    def get_ordering_fields(self, queryset):
         """
         Returns the list of ordering fields for the object list.
         First we check the object's default ordering. Then, any manually-specified ordering
         from the query string overrides anything. Finally, a deterministic
         order is guaranteed by ensuring the primary key is used as the last
         ordering field.
+        :param queryset: the queryset being ordered
+        :return: list of fields to order by
         """
 
         params = dict(self.request.GET.items())
@@ -216,6 +218,7 @@ class ItemListView(ListView):
             ordering = []
             column_fields = list(self.column_attrs.values())
             columns = ordering_text.split('.')
+
             for order_field in columns:
                 try:
                     prefix, index = order_field.rpartition('-')[1:]
@@ -223,7 +226,7 @@ class ItemListView(ListView):
 
                     if column_is_field(self.model, field_name):
                         ordering.append(prefix + field_name)
-                    elif field_name in self.queryset.query.annotations:
+                    elif queryset.query.annotations:
                         # allow sorting by annotations
                         ordering.append(prefix + field_name)
                     else:
