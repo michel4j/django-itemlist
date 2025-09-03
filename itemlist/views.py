@@ -3,6 +3,7 @@ import re
 from datetime import date, datetime, time
 from functools import reduce
 
+from django.apps import apps
 from django.contrib import admin
 from django.contrib.admin import FieldListFilter
 from django.contrib.admin.options import IncorrectLookupParameters
@@ -292,7 +293,15 @@ class ItemListView(ListView):
         opts = queryset.model._meta
         search_fields = self.get_list_search()
         use_distinct = False
-        if search_fields and search_term:
+        if not search_fields and search_term:
+            return queryset, use_distinct
+
+        if apps.is_installed('postgres'):
+            from django.contrib.postgres.search import SearchVector
+            # if the postgres search extension is installed, use the full text search
+            vector = SearchVector(*search_fields)
+            queryset = queryset.annotate(search=vector).filter(search=search_term)
+        else:
             orm_lookups = [construct_search(str(search_field)) for search_field in search_fields]
             queryset = queryset.filter(
                 reduce(operator.or_, [
