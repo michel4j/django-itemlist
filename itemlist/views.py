@@ -296,7 +296,7 @@ class ItemListView(ListView):
         if not search_fields and search_term:
             return queryset, use_distinct
 
-        if apps.is_installed('postgres'):
+        if apps.is_installed('django.contrib.postgres'):
             from django.contrib.postgres.search import SearchVector
             # if the postgres search extension is installed, use the full text search
             vector = SearchVector(*search_fields)
