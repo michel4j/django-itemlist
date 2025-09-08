@@ -152,6 +152,9 @@ class ItemListView(ListView):
 
         params = dict(self.request.GET.items())
         search_text = params.get(SEARCH_VAR, '')
+        # Force page 1 if a search is being performed and page is set
+        if search_text and PAGE_VAR in params:
+            self.kwargs[PAGE_VAR] = 1
 
         # First, we collect all the declared list filters.
         self.filter_specs, has_filters, filter_use_distinct = self.get_filters()
