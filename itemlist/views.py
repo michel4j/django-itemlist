@@ -10,6 +10,7 @@ from django.contrib.admin.options import IncorrectLookupParameters
 from django.contrib.admin.utils import get_fields_from_path, prepare_lookup_value
 from django.core.exceptions import FieldDoesNotExist
 from django.db import models
+from django.db.models import F
 from django.urls import reverse_lazy
 from django.utils import timezone, safestring
 from django.utils.encoding import force_str
@@ -300,10 +301,19 @@ class ItemListView(ListView):
             return queryset, use_distinct
 
         if apps.is_installed('django.contrib.postgres'):
-            from django.contrib.postgres.search import SearchVector
+            from django.contrib.postgres.search import SearchVector, SearchRank, SearchQuery
             # if the postgres search extension is installed, use the full text search
-            vector = SearchVector(*search_fields)
-            queryset = queryset.annotate(search=vector).filter(search=search_term)
+            vector = reduce(
+                operator.__add__, (SearchVector(F(field_name), weight='A') for field_name in search_fields)
+            )
+            search_query = SearchQuery(search_term, config='english', search_type='phrase')
+            queryset = queryset.annotate(
+                rank=SearchRank(vector, search_query)
+            ).filter(
+                rank__gte=0.1
+            ).order_by(
+                '-rank'
+            )
         else:
             orm_lookups = [construct_search(str(search_field)) for search_field in search_fields]
             queryset = queryset.filter(
