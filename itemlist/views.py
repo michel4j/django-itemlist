@@ -78,6 +78,7 @@ class ItemListView(ListView):
     link_field = None
 
     add_facets = False
+    allow_empty = True
 
     ordering = []
 
@@ -145,7 +146,7 @@ class ItemListView(ListView):
         annotation = {}
         for i, field_name in enumerate(self.get_list_columns()):
             if '__' in field_name:
-                name = '_column_{}'.format(i)
+                name = f'_column_{i}'
                 self.column_attrs[field_name] = name
                 annotation[name] = models.F(field_name)
             else:
@@ -153,9 +154,6 @@ class ItemListView(ListView):
 
         params = dict(self.request.GET.items())
         search_text = params.get(SEARCH_VAR, '')
-        # Force page 1 if a search is being performed and page is set
-        if search_text and PAGE_VAR in params:
-            self.kwargs[PAGE_VAR] = 1
 
         # First, we collect all the declared list filters.
         self.filter_specs, has_filters, filter_use_distinct = self.get_filters()
@@ -286,13 +284,13 @@ class ItemListView(ListView):
 
         def construct_search(field_name):
             if field_name.startswith('^'):
-                return "{}__istartswith".format(field_name[1:])
+                return f"{field_name[1:]}__istartswith"
             elif field_name.startswith('='):
-                return "{}__iexact".format(field_name[1:])
+                return f"{field_name[1:]}__iexact"
             elif field_name.startswith('@'):
-                return "{}__search".format(field_name[1:])
+                return f"{field_name[1:]}__search"
             else:
-                return "{}__icontains".format(field_name)
+                return f"{field_name}__icontains"
 
         opts = queryset.model._meta
         search_fields = self.get_list_search()
@@ -351,7 +349,7 @@ class ItemListView(ListView):
             sort_style = {'-': 'sorted-dn', '': 'sorted-up', '*': 'not-sorted'}[order_specs.get(i, '*')]
             field_tag = ({'': '-', '-': '*', '*': ''}[order_specs.get(i, '*')], i)
             rest_tags = [(v, k) for k, v in order_specs.items() if k != i]
-            sort_val = '.'.join(['{0}{1}'.format(d, c) for d, c in [field_tag] + rest_tags if d != '*'])
+            sort_val = '.'.join([f'{d}{c}' for d, c in [field_tag] + rest_tags if d != '*'])
             header_url = self.get_query_string(new_params={ORDER_VAR: sort_val})
 
             header_text = list_headers.get(field_name, get_column_title(self.model, field_name))
@@ -477,3 +475,26 @@ class ItemListView(ListView):
             return filter_specs, has_filters, use_distinct
         except FieldDoesNotExist as e:
             raise IncorrectLookupParameters from e
+
+    def paginate_queryset(self, queryset, page_size):
+        """
+        Paginate the queryset, Don't use ListView method since it raises
+        Exceptions. Instead return sensible defaults.
+        """
+        paginator = self.get_paginator(
+            queryset,
+            page_size,
+            orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty(),
+        )
+        page_kwarg = self.page_kwarg
+        page = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg) or 1
+        try:
+            page_number = min(int(page), paginator.num_pages)
+        except ValueError:
+            if page == "last":
+                page_number = paginator.num_pages
+            else:
+                page_number = 1
+        page = paginator.get_page(page_number)
+        return (paginator, page, page.object_list, page.has_other_pages())

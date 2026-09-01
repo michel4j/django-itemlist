@@ -2,7 +2,8 @@ from django import template
 from django.core.exceptions import ObjectDoesNotExist, FieldDoesNotExist
 from django.db import models
 from django.utils.encoding import smart_str
-from django.utils.html import mark_safe, escape
+from django.utils.safestring import mark_safe
+from django.utils.html import escape
 from django.utils import timezone
 register = template.Library()
 
