@@ -498,3 +498,4 @@ class ItemListView(ListView):
                 page_number = 1
         page = paginator.get_page(page_number)
         return (paginator, page, page.object_list, page.has_other_pages())
+

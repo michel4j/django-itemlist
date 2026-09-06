@@ -50,10 +50,7 @@ class YearLimitFilterFactory(FilterFactory):
             def queryset(self, request, queryset):
                 try:
                     value = int(self.value())
-                    if filter_type == 'after':
-                        flt = {f'{field_name}__year{self.lookup_opr}': value}
-                    else:
-                        flt = {f'{field_name}__year{self.lookup_opr}': value}
+                    flt = {f'{field_name}__year{self.lookup_opr}': value}
                 except (ValueError, TypeError):
                     flt = {}
                 return queryset.filter(**flt)
@@ -66,7 +63,7 @@ class YearFilterFactory(FilterFactory):
     @classmethod
     def new(cls, field_name='created', reverse=True):
 
-        class YearFilter(admin.SimpleListFilter):
+        class YearListFilter(admin.SimpleListFilter):
             parameter_name = f'{field_name}_year'
             title = parameter_name.replace('_', ' ').title()
 
@@ -85,13 +82,13 @@ class YearFilterFactory(FilterFactory):
                 flt = {} if not self.value() else {f'{field_name}__year': self.value()}
                 return queryset.filter(**flt)
 
-        return YearFilter
+        return YearListFilter
 
 
 class MonthFilterFactory(FilterFactory):
     @classmethod
     def new(cls, field_name='created'):
-        class MonthFilter(admin.SimpleListFilter):
+        class MonthListFilter(admin.SimpleListFilter):
             parameter_name = f'{field_name}_month'
             title = parameter_name.replace('_', ' ').title()
 
@@ -106,13 +103,13 @@ class MonthFilterFactory(FilterFactory):
                 flt = {} if not self.value() else {f'{field_name}__month': self.value()}
                 return queryset.filter(**flt)
 
-        return MonthFilter
+        return MonthListFilter
 
 
 class QuarterFilterFactory(FilterFactory):
     @classmethod
     def new(cls, field_name='created'):
-        class QuarterFilter(admin.SimpleListFilter):
+        class QuarterListFilter(admin.SimpleListFilter):
             parameter_name = f'{field_name}_quarter'
             title = parameter_name.replace('_', ' ').title()
 
@@ -127,7 +124,7 @@ class QuarterFilterFactory(FilterFactory):
                 flt = {} if not self.value() else {f'{field_name}__quarter': self.value()}
                 return queryset.filter(**flt)
 
-        return QuarterFilter
+        return QuarterListFilter
 
 
 class ExpiryDateListFilterFactory(FilterFactory):
@@ -183,3 +180,28 @@ class ExpiryDateListFilterFactory(FilterFactory):
                 return queryset.filter(**query)
 
         return ExpiryDateListFilter
+
+
+def YearFilter(field_name='created', reverse=True):
+    return YearFilterFactory.new(field_name=field_name, reverse=reverse)
+
+
+def StartYearFilter(field_name='created'):
+    return YearLimitFilterFactory.new(field_name=field_name, filter_type='since')
+
+
+def EndYearFilter(field_name='created'):
+    return YearLimitFilterFactory.new(field_name=field_name, filter_type='until')
+
+
+def MonthFilter(field_name='created'):
+    return MonthFilterFactory.new(field_name=field_name)
+
+
+def QuarterFilter(field_name='created'):
+    return QuarterFilterFactory.new(field_name=field_name)
+
+
+def ExpiryDateFilter(field_name='due_date'):
+    return ExpiryDateListFilterFactory.new(field_name=field_name)
+
