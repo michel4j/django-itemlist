@@ -1,3 +1,4 @@
+{% load itemlist %}
 {% spaceless %}
 <div class="row align-items-center my-2">
     <div class="col-sm-4 d-flex align-items-center">
@@ -35,7 +36,7 @@
             </li>
             <li class="nav-item d-flex align-items-center">
                 <div class="filter-counts">
-                    <span>{{ paginator.count }} item{{ paginator.count|pluralize }}</span>
+                    <span>{{ paginator.count | comma_format }} item{{ paginator.count|pluralize }}</span>
                     {% if has_filters %}
                         <a href="." data-toggle="tooltip" title="Clear filters" class="clear-filters">
                         <svg  xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" class="filter-icon"

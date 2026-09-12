@@ -15,6 +15,15 @@ def show_row(context, obj):
     }
 
 
+@register.filter
+def comma_format(value):
+    try:
+        # Formats integers or floats with commas (e.g., 1000000 -> 1,000,000)
+        return f"{value:,}"
+    except (ValueError, TypeError):
+        return value
+
+
 @register.inclusion_tag('itemlist/filters.html', takes_context=True)
 def itemlist_filters(context):
     return context

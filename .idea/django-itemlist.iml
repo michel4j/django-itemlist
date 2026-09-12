@@ -14,9 +14,9 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/demo" />
       <sourceFolder url="file://$MODULE_DIR$/demo" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/itemlist" />
+      <sourceFolder url="file://$MODULE_DIR$/demo" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/itemlist" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/itemlist" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
